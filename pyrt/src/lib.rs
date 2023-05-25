@@ -57,16 +57,29 @@ fn rps_round(input: &str) -> PyResult<bool>{
     }
 }
 
-/// Formats the sum of two numbers as string.
+// State Struct
+#[pyclass]
+struct Record {
+    wins: u8,
+    #[pyo3(get, set)]
+    data: PyObject
+}
+
 #[pyfunction]
-fn sum_as_string(a: usize, b: usize) -> PyResult<String> {
-    Ok((a + b).to_string())
+fn save_score(wins: u8, data: PyObject) -> PyResult<Record> {
+    println!();
+    Ok(Record {
+        wins,
+        data
+    })
 }
 
 /// A Python module implemented in Rust.
 #[pymodule]
 fn pyrt(_py: Python, m: &PyModule) -> PyResult<()> {
-    m.add_function(wrap_pyfunction!(sum_as_string, m)?)?;
+    m.add_class::<Record>()?;
     m.add_function(wrap_pyfunction!(rps_round, m)?)?;
+    m.add_function(wrap_pyfunction!(save_score, m)?)?;
+
     Ok(())
 }

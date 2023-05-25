@@ -1,5 +1,11 @@
 import pyrt
 
+class dat:
+    name = "record data"
+
+    def __init__(self, wins) -> None:
+        self.wins = wins
+
 wins = 0
 while True:
     try:
@@ -10,5 +16,8 @@ while True:
             print("Round lost")
     except:
         print("Bad Input")
+
+
+    record = pyrt.save_score(wins, dat(wins*2))
 
     print(f"{wins} wins")
